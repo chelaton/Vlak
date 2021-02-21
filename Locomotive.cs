@@ -4,7 +4,6 @@ using System.Text;
 
 namespace Vlak
 {
-
     class Locomotive
     {
         private Person driver;

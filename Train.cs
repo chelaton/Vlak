@@ -8,44 +8,44 @@ namespace Vlak
     class Train
     {
         private Locomotive locomotive;
-        private List<Wagon> wagons;
+        private List<IWagon> wagons;
+
+        internal Locomotive Locomotive { get => locomotive; set => locomotive = value; }
+        internal List<IWagon> Wagons { get => wagons; set => wagons = value; }
 
         public Train()
         {
         }
 
-        public Train(Locomotive locomotive)
-        {
-            Locomotive = locomotive;
-            wagons = new List<Wagon>();
-        }
-
-        public Train(Locomotive locomotive, List<Wagon> wagons)
+        public Train(Locomotive locomotive, List<IWagon> wagons)
         {
             Locomotive = locomotive;
             Wagons = wagons;
         }
 
-        internal Locomotive Locomotive { get => locomotive; set => locomotive = value; }
-        internal List<Wagon> Wagons { get => wagons; set => wagons = value; }
-
-        public void ConnectWagon(Wagon wagon)
+        public Train(Locomotive locomotive)
         {
-            if (Locomotive.Engine.Type == "Parni" && wagons.Count>=5)
+            Locomotive = locomotive;
+            Wagons = new List<IWagon>();
+        }
+
+        public void ConnectWagon(IWagon wagon)
+        {
+            if (Locomotive.Engine.Type == "Parni" && Wagons.Count >= 5)
             {
                 Console.WriteLine($"Neni mozne pridat dalsi vagon! Parni loko utahne jen 5.");
             }
             else
             {
-                wagons.Add(wagon);
+                Wagons.Add(wagon);
             }
-            
+
         }
-        public void DisconnectWagon(Wagon wagon)
+        public void DisconnectWagon(IWagon wagon)
         {
-            if (wagons.Contains(wagon))
+            if (Wagons.Contains(wagon))
             {
-                wagons.Remove(wagon);
+                Wagons.Remove(wagon);
             }
             else
             {
@@ -57,15 +57,15 @@ namespace Vlak
         public void ReserveChair(int numberOfWagon, int numberOfSeat)
         {
             int indexVagonu = numberOfWagon - 1;
-            if (wagons[indexVagonu].GetType().BaseType == typeof(PersonalWagon) && wagons.Count >= numberOfWagon)
+            if (Wagons[indexVagonu].GetType().BaseType == typeof(PersonalWagon) && Wagons.Count >= numberOfWagon)
             {
 
-                if (numberOfSeat < ((PersonalWagon)wagons[indexVagonu]).NumberOfChairs)
+                if (numberOfSeat < ((PersonalWagon)Wagons[indexVagonu]).NumberOfChairs)
                 {
 
-                   if (((PersonalWagon)wagons[indexVagonu]).Sits[numberOfSeat].Reserved == false)
+                    if (((PersonalWagon)Wagons[indexVagonu]).Sits[numberOfSeat].Reserved == false)
                     {
-                        ((PersonalWagon)wagons[indexVagonu]).Sits[numberOfSeat].Reserved = true;
+                        ((PersonalWagon)Wagons[indexVagonu]).Sits[numberOfSeat].Reserved = true;
                     }
                     else
                     {
@@ -79,7 +79,7 @@ namespace Vlak
             }
             else
             {
-                Console.WriteLine($"Snazite se rezervovat misto ve vlaku typu {wagons[indexVagonu].GetType().Name}");
+                Console.WriteLine($"Snazite se rezervovat misto ve vlaku typu {Wagons[indexVagonu].GetType().Name}");
             }
 
         }
@@ -94,22 +94,22 @@ namespace Vlak
                 {
                     foreach (var sedadlo in ((PersonalWagon)vagon).Sits)
                     {
-                        if (sedadlo.Reserved==true)
+                        if (sedadlo.Reserved == true)
                         {
-                            Console.WriteLine($"cislo {sedadlo.Number} ve vagonu cislo {i+1}");
+                            Console.WriteLine($"cislo {sedadlo.Number} ve vagonu cislo {i + 1}");
                         }
-                    } 
+                    }
                 }
-                
+
                 i++;
-            } 
+            }
 
 
         }
         public override string ToString()
         {
             string s = "";
-            s += $"{locomotive.ToString()}";
+            s += $"{Locomotive.ToString()}";
             foreach (var wagon in Wagons)
             {
                 s += wagon.ToString();

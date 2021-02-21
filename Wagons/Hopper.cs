@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Vlak.Wagons
 {
-    class Hopper : Wagon
+    class Hopper : IWagon
     {
         private double loadingCapacity;
 

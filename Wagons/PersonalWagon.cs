@@ -5,7 +5,7 @@ using Vlak.Wagons;
 
 namespace Vlak
 {
-    abstract class PersonalWagon : Wagon
+    abstract class PersonalWagon : IWagon
     {
         List<Door> doors;
         Chair[] sits;
